@@ -1,12 +1,10 @@
 """
-API web del Cripto Breaker (version 2).
-Ahora incluye:
-  - Advertencias cuando el texto es corto
-  - Endpoint /info con informacion del sistema
-  - Mejor validacion
+API web del Cripto Breaker (version 3.0).
+Sirve la interfaz visual (index.html) y expone los endpoints JSON.
 """
 
 from fastapi import FastAPI, HTTPException
+from fastapi.responses import FileResponse
 from pydantic import BaseModel
 
 from cripto_breaker import (
@@ -19,8 +17,8 @@ from cripto_breaker import (
 
 app = FastAPI(
     title="Cripto Breaker API",
-    description="Rompe cifrados clasicos: Cesar, Vigenere, sustitucion simple y XOR.",
-    version="2.0.0",
+    description="Rompe cifrados clásicos: César, Vigenère, sustitución simple y XOR.",
+    version="3.0.0",
 )
 
 
@@ -31,11 +29,8 @@ class TextoCifrado(BaseModel):
 
 @app.get("/")
 async def raiz():
-    return {
-        "mensaje": "Cripto Breaker API v2.0",
-        "docs": "/docs",
-        "endpoints": ["/romper", "/detectar", "/info", "/health"],
-    }
+    """Devuelve la interfaz visual web."""
+    return FileResponse("index.html")
 
 
 @app.get("/health")
